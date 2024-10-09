@@ -1,7 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { eventTypeDefs } from './event';
+import { locationTypeDefs } from './location';
 
-export const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+export const typeDefs = [locationTypeDefs, eventTypeDefs];
