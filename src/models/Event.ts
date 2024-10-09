@@ -7,6 +7,6 @@ const EventSchema = new Schema({
   location: { type: Schema.Types.ObjectId, ref: 'Location', required: true },
   description: { type: String, required: true },
   tags: [{ type: String }],
-});
+}, { timestamps: true }); 
 
 export const Event = model('Event', EventSchema);
