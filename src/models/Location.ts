@@ -11,6 +11,7 @@ const LocationSchema = new Schema({
     required: true,
     enum: ['class', '1-on-1', 'workshop'],  // Location type should be one of the array
   },
+  tags: [{ type: String }],
 },{ timestamps: true });
 
 export const Location = model('Location', LocationSchema);
