@@ -71,6 +71,11 @@ Do your best and have fun!
 - Add in requirements and catch possible errors ✅
 - Manual Tests on Apollo Studio ✅
 - Fix possible problems  ✅
+- Add success and errors responses to all resolvers
+- Add security layers
+  - Installed Helmet ✅
+  - Brute Force Protection ✅
+  - Validate and Sanitize Input
 
 
 [mongodb-url]: https://www.mongodb.com/
