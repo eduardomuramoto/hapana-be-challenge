@@ -45,7 +45,7 @@ export const eventResolvers = {
       //   .skip((page - 1) * pageSize)
       //   .limit(pageSize);
       else{
-        throw new Error('Location is required to search for upcoming events');
+        throw new Error('Location is required to search for events');
       }
     },
     getUpcomingEvents: async (
