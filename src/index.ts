@@ -27,7 +27,7 @@ const startServer = async () => {
       console.log('MongoDB connected');
       app.use(limiter);
       app.use(helmet());
-      app.listen({ port: 4000 }, () =>
+      app.listen({ port: process.env.PORT as string }, () =>
         console.log(`🚀 Server running at http://localhost:4000${apolloServer.graphqlPath}`)
       );
     })
