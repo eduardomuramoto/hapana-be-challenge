@@ -1,5 +1,7 @@
 import { Location } from '../../models/Location';
 import { Event } from '../../models/Event';
+import { ApolloError } from 'apollo-server-express';
+import { locationValidationSchema } from '../../validation/location';
 
 export const locationResolvers = {
   Query: {
@@ -22,6 +24,15 @@ export const locationResolvers = {
   },
   Mutation: {
     createLocation: async (_: any, { name, type, tags }: { name: string, type:"class" | "1-on-1" | "workshop",tags: string[] }) => {
+      // Validate input
+      const { error } = locationValidationSchema.validate({name,type,tags}, { abortEarly: false });
+      if (error) {
+        throw new ApolloError(
+          'Validation failed',
+          'BAD_USER_INPUT',
+          { validationErrors: error.details.map((err) => err.message) }
+        );
+      }
       //Doesn't create if location exists
       const locationExists = await Location.findOne({ name });
       if (locationExists) throw new Error('Location with this name already exists');
@@ -31,6 +42,7 @@ export const locationResolvers = {
       
     },
     updateLocation: async (_: any, { id, name, type, tags }: { id: string, name: string, type: "class" | "1-on-1" | "workshop", tags : string[] }) => {
+      // Check if Location exists
       const location = await Location.findById(id);
       if (!location) throw new Error('Location not found');
 

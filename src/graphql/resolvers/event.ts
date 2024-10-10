@@ -1,5 +1,7 @@
+import { ApolloError } from 'apollo-server-express';
 import { Event } from '../../models/Event';
 import { Location } from '../../models/Location';
+import { eventValidationSchema } from '../../validation/event';
 
 export const eventResolvers = {
   Query: {
@@ -94,6 +96,16 @@ export const eventResolvers = {
       _: any,
       { name, dateTime, type, location, description, tags }: any
     ) => {
+      // Validate input
+      const { error } = eventValidationSchema.validate({ name, dateTime, type, location, description, tags }, { abortEarly: false });
+      if (error) {
+        throw new ApolloError(
+          'Validation failed',
+          'BAD_USER_INPUT',
+          { validationErrors: error.details.map((err) => err.message) }
+        );
+      }
+      // Check if location exists
       const locationExists = await Location.findById(location);
       if (!locationExists) throw new Error('Location not found');
       
