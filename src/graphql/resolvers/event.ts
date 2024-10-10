@@ -10,7 +10,7 @@ export const eventResolvers = {
     },
     getEvents: async (
       _: any,
-      { name,locationName,locationId, sortBy = 'dateTime', sortDirection = 'asc', page = 1, pageSize = 10, search = '' }: any
+      { name,locationName,locationId, sortBy = 'dateTime', sortDirection = 'asc', page = 1, pageSize = 10}: any
     ) => {
       const sortOptions: any = {};
       // Query by name
@@ -50,7 +50,7 @@ export const eventResolvers = {
     },
     getUpcomingEvents: async (
       _: any,
-      { name, locationId,locationName, sortBy = 'dateTime', sortDirection = 'asc', page = 1, pageSize = 10, search = '' }: any
+      { name, locationId,locationName, sortBy = 'dateTime', sortDirection = 'asc', page = 1, pageSize = 10}: any
     ) => {
       const sortOptions: any = {};
       const currentDate = new Date();

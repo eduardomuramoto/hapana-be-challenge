@@ -75,7 +75,7 @@ Do your best and have fun!
 - Add security layers
   - Installed Helmet ✅
   - Brute Force Protection ✅
-  - Validate and Sanitize Input
+  - Validate and Sanitize Input - JOI
     - Create Validations ✅
     - Listing Validations
     - Update Validations
