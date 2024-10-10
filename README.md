@@ -77,6 +77,9 @@ Do your best and have fun!
   - Brute Force Protection ✅
   - Validate and Sanitize Input
     - Create Validations ✅
+    - Listing Validations
+    - Update Validations
+- Create Unit and Integration Tests
 
 
 [mongodb-url]: https://www.mongodb.com/
