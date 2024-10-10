@@ -25,9 +25,10 @@ export const locationResolvers = {
       //Doesn't create if location exists
       const locationExists = await Location.findOne({ name });
       if (locationExists) throw new Error('Location with this name already exists');
-
+      
       const location = new Location({ name, type,tags });
       return await location.save();
+      
     },
     updateLocation: async (_: any, { id, name, type, tags }: { id: string, name: string, type: "class" | "1-on-1" | "workshop", tags : string[] }) => {
       const location = await Location.findById(id);

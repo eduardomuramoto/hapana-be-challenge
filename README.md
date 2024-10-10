@@ -59,18 +59,18 @@ Do your best and have fun!
 
 ## Dev Log
 
-- Plan project structure and possible extra measures
-  - Don't delete Location that is in use
-  - Use Location Name on Query
-  - Location name should be unique?
-  - Listings endpoint by name or name contains
-- Setup Server
-- Connect DB
-- Design Data Models
-- Create Basic CRUD
-- Add in requirements and catch possible errors
-- Manual Tests on Apollo Studio
-- Fix possible problems
+- Plan project structure and possible extra measures  ✅
+  - Don't delete Location that is in use : Done
+  - Use Location Name on Query : Id or Name
+  - Location name should be unique? Unique
+  - Listings endpoint by name or name contains: Contains
+- Setup Server ✅
+- Connect DB ✅
+- Design Data Models ✅
+- Create Basic CRUD ✅
+- Add in requirements and catch possible errors ✅
+- Manual Tests on Apollo Studio ✅
+- Fix possible problems  ✅
 
 
 [mongodb-url]: https://www.mongodb.com/

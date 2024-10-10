@@ -1,4 +1,3 @@
-import { query } from 'express';
 import { Event } from '../../models/Event';
 import { Location } from '../../models/Location';
 
@@ -106,6 +105,7 @@ export const eventResolvers = {
         description,
         tags,
       });
+      
       return await event.save();
     },
     updateEvent: async (
