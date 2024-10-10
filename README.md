@@ -27,24 +27,24 @@ Create a basic event management system (no need to implement a user system) wher
 
 ### Requirements
 
-- The application should allow the querying of upcoming events by location;
-- The location of an event should not be updatable after it's been created;
-- An event cannot be updated or deleted after the date/time passed;
-- Metadata such as created and updated date should be stored and be available to query;
-- The listing endpoints should:
-  - Require a Location;
-  - Be sortable by date/time and name both ways (ascending and descending);
-  - Be paginated;
-  - Be searchable by `name`.
-- The Location type should one of:
+- The application should allow the querying of upcoming events by location; ✅
+- The location of an event should not be updatable after it's been created; ✅
+- An event cannot be updated or deleted after the date/time passed; ✅
+- Metadata such as created and updated date should be stored and be available to query; ✅
+- The listing endpoints should: ✅
+  - Require a Location; ✅
+  - Be sortable by date/time and name both ways (ascending and descending); ✅
+  - Be paginated; ✅
+  - Be searchable by `name`. ✅
+- The Location type should one of: ✅
   - `class`
   - `1-on-1`
   - `workshop`
-- Locations should be previously created and referenced in the events by their ID field.
-- All Location fields are required except `tags`.
-- The Location `name` field should accept:
-  - Alphanumerical characters;
-  - Only `-` as a special character.
+- Locations should be previously created and referenced in the events by their ID field. ✅
+- All Location fields are required except `tags`. ✅
+- The Location `name` field should accept: ✅
+  - Alphanumerical characters; ✅
+  - Only `-` as a special character. ✅
  
 ### What is NOT required
 - No UI is needed. Showing the mutations and query usages through Apollo Studio is what we are looking for.
@@ -53,9 +53,25 @@ Create a basic event management system (no need to implement a user system) wher
 
 Though not required, it is strongly advised that you create a developer diary for the task including any relevant details, questions that you might have about the requirements, how you got around issues, the decisions you made etc.
 
-If you dont't know a particular tech that is required, **be honest** and mention about it on the above.
+If you don't know a particular tech that is required, **be honest** and mention about it on the above.
 
 Do your best and have fun!
+
+## Dev Log
+
+- Plan project structure and possible extra measures
+  - Don't delete Location that is in use
+  - Use Location Name on Query
+  - Location name should be unique?
+  - Listings endpoint by name or name contains
+- Setup Server
+- Connect DB
+- Design Data Models
+- Create Basic CRUD
+- Add in requirements and catch possible errors
+- Manual Tests on Apollo Studio
+- Fix possible problems
+
 
 [mongodb-url]: https://www.mongodb.com/
 [mongoose-url]: https://mongoosejs.com/

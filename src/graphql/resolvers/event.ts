@@ -1,3 +1,4 @@
+import { query } from 'express';
 import { Event } from '../../models/Event';
 import { Location } from '../../models/Location';
 
@@ -6,8 +7,87 @@ export const eventResolvers = {
     getEvent: async (_: any, { id }: { id: string }) => {
       return await Event.findById(id).populate('location');
     },
-    getEvents: async () => {
-      return await Event.find().populate('location');
+    getEvents: async (
+      _: any,
+      { name,locationName,locationId, sortBy = 'dateTime', sortDirection = 'asc', page = 1, pageSize = 10, search = '' }: any
+    ) => {
+      const sortOptions: any = {};
+      // Query by name
+      let query : any = name
+      ? { name: { $regex: name, $options: 'i' } }
+      : {};
+
+      sortOptions[sortBy] = sortDirection === 'asc' ? 1 : -1;
+      // If locationId is provided, filter by it
+      if (locationId) {
+        query.location = locationId;
+        return await Event.find(query).populate('location')
+        .sort(sortOptions)
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+      }
+
+      // If locationName is provided, find the corresponding location and filter by it
+      if (locationName) {
+        const location = await Location.findOne({ name: { $regex: locationName, $options: 'i' } });
+        if (!location) throw new Error('Location not found');
+        query.location = location.id;
+      return await Event.find(query).populate('location')
+        .sort(sortOptions)
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+      }
+
+      // return await Event.find()
+      //   .populate('location')
+      //   .sort(sortOptions)
+      //   .skip((page - 1) * pageSize)
+      //   .limit(pageSize);
+      else{
+        throw new Error('Location is required to search for upcoming events');
+      }
+    },
+    getUpcomingEvents: async (
+      _: any,
+      { name, locationId,locationName, sortBy = 'dateTime', sortDirection = 'asc', page = 1, pageSize = 10, search = '' }: any
+    ) => {
+      const sortOptions: any = {};
+      const currentDate = new Date();
+
+      // Query by name
+      let query : any = name
+      ? { name: { $regex: name, $options: 'i' } }
+      : {};
+    
+      sortOptions[sortBy] = sortDirection === 'asc' ? 1 : -1;
+
+      // If locationId is provided, filter by it
+      if (locationId) {
+        query = { location: locationId ,dateTime: { $gte: currentDate }};
+        return await Event.find(
+          query
+        ).populate('location')
+        .sort(sortOptions)
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+      }
+      
+      // If locationName is provided, find the corresponding location and filter by it
+      if (locationName) {
+        const location = await Location.findOne({ name: { $regex: locationName, $options: 'i' } });
+        if (!location) throw new Error('Location not found');
+        query = { location: location.id ,dateTime: { $gte: currentDate }};
+
+      return await Event.find(
+          query
+        ).populate('location')
+        .sort(sortOptions)
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+      }
+      else{
+        throw new Error('Location is required to search for upcoming events');
+      }
     },
   },
   Mutation: {
@@ -30,26 +110,38 @@ export const eventResolvers = {
     },
     updateEvent: async (
       _: any,
-      { id, name, dateTime, type, location, description, tags }: any
+      { id, name, dateTime, type, location,  description, tags }: any
     ) => {
       const event = await Event.findById(id);
       if (!event) throw new Error('Event not found');
-      
+
+      // Prevent updating past events
+      if (new Date(event.dateTime) < new Date()) {
+        throw new Error('Cannot update past events.');
+      }
+
+      // Prevent updating the location once the event is created, operation blocked on typedef too.
       if (location) {
-        const locationExists = await Location.findById(location);
-        if (!locationExists) throw new Error('Location not found');
+        throw new Error('Location cannot be updated after event creation.');
       }
 
       event.name = name || event.name;
       event.dateTime = dateTime ? new Date(dateTime) : event.dateTime;
       event.type = type || event.type;
-      event.location = location || event.location;
       event.description = description || event.description;
       event.tags = tags || event.tags;
 
       return await event.save();
     },
     deleteEvent: async (_: any, { id }: { id: string }) => {
+      const event = await Event.findById(id);
+      if (!event) throw new Error('Event not found');
+
+      // Prevent deleting past events
+      if (new Date(event.dateTime) < new Date()) {
+        throw new Error('Cannot delete past events.');
+      }
+
       await Event.findByIdAndDelete(id);
       return true;
     },
